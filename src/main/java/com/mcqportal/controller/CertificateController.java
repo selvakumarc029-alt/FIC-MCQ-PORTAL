@@ -38,7 +38,7 @@ public class CertificateController extends ControllerSupport {
     }
 
     @GetMapping("/certificates/{id}")
-    public String certificate(@PathVariable Long id, Authentication authentication, Model model) {
+    public String certificate(@PathVariable String id, Authentication authentication, Model model) {
         User user = currentUser(authentication);
         var certificate = certificateRepository.findById(id).orElseThrow();
         if (!certificate.getUser().getId().equals(user.getId()) && user.getRole() != com.mcqportal.entity.Role.ROLE_ADMIN) {
@@ -49,7 +49,7 @@ public class CertificateController extends ControllerSupport {
     }
 
     @GetMapping("/certificates/{id}/download")
-    public void download(@PathVariable Long id, Authentication authentication, HttpServletResponse response) throws IOException {
+    public void download(@PathVariable String id, Authentication authentication, HttpServletResponse response) throws IOException {
         User user = currentUser(authentication);
         var certificate = certificateRepository.findById(id).orElseThrow();
         if (!certificate.getUser().getId().equals(user.getId()) && user.getRole() != com.mcqportal.entity.Role.ROLE_ADMIN) {

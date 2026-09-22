@@ -53,10 +53,10 @@ public class QuizController extends ControllerSupport {
     @PostMapping("/quiz/submit")
     public String submit(Authentication authentication, @RequestParam Map<String, String> requestParams) {
         User user = currentUser(authentication);
-        Map<Long, String> answers = new HashMap<>();
+        Map<String, String> answers = new HashMap<>();
         requestParams.forEach((key, value) -> {
             if (key.startsWith("answer_")) {
-                answers.put(Long.parseLong(key.substring(7)), value);
+                answers.put(key.substring(7), value);
             }
         });
         String category = requestParams.get("category");
@@ -86,7 +86,7 @@ public class QuizController extends ControllerSupport {
     }
 
     @GetMapping("/results/{id}")
-    public String result(@org.springframework.web.bind.annotation.PathVariable Long id, Authentication authentication, Model model) {
+    public String result(@org.springframework.web.bind.annotation.PathVariable String id, Authentication authentication, Model model) {
         User user = currentUser(authentication);
         var result = resultRepository.findById(id).orElseThrow();
         if (!result.getUser().getId().equals(user.getId()) && user.getRole() != com.mcqportal.entity.Role.ROLE_ADMIN) {

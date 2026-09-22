@@ -69,7 +69,7 @@ public class AdminController {
     }
 
     @PostMapping("/users/{id}/delete")
-    public String deleteUser(@PathVariable Long id) {
+    public String deleteUser(@PathVariable String id) {
         userRepository.deleteById(id);
         return "redirect:/admin/users";
     }
@@ -84,7 +84,7 @@ public class AdminController {
     }
 
     @GetMapping("/questions/{id}/edit")
-    public String editQuestion(@PathVariable Long id, Model model) {
+    public String editQuestion(@PathVariable String id, Model model) {
         model.addAttribute("questionForm", questionRepository.findById(id).orElseThrow());
         model.addAttribute("questions", questionRepository.findAll(PageRequest.of(0, 10, Sort.by("id").descending())));
         model.addAttribute("q", "");
@@ -104,7 +104,7 @@ public class AdminController {
     }
 
     @PostMapping("/questions/{id}/delete")
-    public String deleteQuestion(@PathVariable Long id) {
+    public String deleteQuestion(@PathVariable String id) {
         questionRepository.deleteById(id);
         return "redirect:/admin/questions";
     }
@@ -138,14 +138,14 @@ public class AdminController {
     }
 
     @PostMapping("/certificates/{id}/reissue")
-    public String reissue(@PathVariable Long id) {
+    public String reissue(@PathVariable String id) {
         var certificate = certificateRepository.findById(id).orElseThrow();
         certificateService.generateForResult(certificate.getResult());
         return "redirect:/admin/certificates";
     }
 
     @PostMapping("/certificates/{id}/delete")
-    public String deleteCertificate(@PathVariable Long id) {
+    public String deleteCertificate(@PathVariable String id) {
         certificateRepository.deleteById(id);
         return "redirect:/admin/certificates";
     }

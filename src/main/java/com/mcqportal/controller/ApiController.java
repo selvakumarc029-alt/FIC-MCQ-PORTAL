@@ -75,7 +75,7 @@ public class ApiController {
     }
 
     @GetMapping("/results")
-    public Object getResults(@RequestParam(required = false) Long userId) {
+    public Object getResults(@RequestParam(required = false) String userId) {
         if (userId == null) {
             return resultRepository.findAll();
         }
@@ -89,7 +89,7 @@ public class ApiController {
     }
 
     @PostMapping("/certificates/generate/{resultId}")
-    public ResponseEntity<?> generateCertificate(@PathVariable Long resultId) {
+    public ResponseEntity<?> generateCertificate(@PathVariable String resultId) {
         var result = resultRepository.findById(resultId).orElseThrow();
         return ResponseEntity.ok(certificateService.generateForResult(result));
     }
@@ -103,5 +103,5 @@ public class ApiController {
 
     public record RegisterRequest(String fullname, String email, String password, String confirmPassword) {}
     public record LoginRequest(String email, String password) {}
-    public record SubmitQuizRequest(Long userId, Map<Long, String> answers) {}
+    public record SubmitQuizRequest(String userId, Map<String, String> answers) {}
 }

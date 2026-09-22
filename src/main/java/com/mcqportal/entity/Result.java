@@ -1,64 +1,52 @@
 package com.mcqportal.entity;
 
-import jakarta.persistence.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "results")
+@Document(collection = "results")
 public class Result {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "user_id")
+    @DBRef
     private User user;
 
-    @Column(nullable = false)
+    private String userFullname;
+    private String userEmail;
+
     private int score;
-
-    @Column(nullable = false)
     private int totalQuestions;
-
-    @Column(nullable = false)
     private int attemptedQuestions;
-
-    @Column(nullable = false)
     private int correctAnswers;
-
-    @Column(nullable = false)
     private int wrongAnswers;
-
-    @Column(nullable = false)
     private double percentage;
-
-    @Column(length = 80)
     private String category;
-
-    @Column(nullable = false)
     private boolean malpracticeDetected = false;
-
-    @Column(nullable = false)
     private int malpracticeWarnings = 0;
-
-    @Column(length = 255)
     private String malpracticeReason;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private ResultStatus status;
-
-    @Column(name = "exam_date", nullable = false)
     private LocalDateTime examDate = LocalDateTime.now();
 
-    @OneToOne(mappedBy = "result", cascade = CascadeType.ALL)
+    @DBRef
     private Certificate certificate;
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
     public User getUser() { return user; }
-    public void setUser(User user) { this.user = user; }
+    public void setUser(User user) {
+        this.user = user;
+        if (user != null) {
+            this.userFullname = user.getFullname();
+            this.userEmail = user.getEmail();
+        }
+    }
+    public String getUserFullname() { return userFullname != null ? userFullname : (user != null ? user.getFullname() : null); }
+    public void setUserFullname(String userFullname) { this.userFullname = userFullname; }
+    public String getUserEmail() { return userEmail != null ? userEmail : (user != null ? user.getEmail() : null); }
+    public void setUserEmail(String userEmail) { this.userEmail = userEmail; }
     public int getScore() { return score; }
     public void setScore(int score) { this.score = score; }
     public int getTotalQuestions() { return totalQuestions; }

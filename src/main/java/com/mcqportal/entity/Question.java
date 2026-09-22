@@ -1,44 +1,36 @@
 package com.mcqportal.entity;
 
-import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
-@Table(name = "questions")
+@Document(collection = "questions")
 public class Question {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
     @NotBlank
-    @Column(nullable = false, length = 1000)
     private String question;
 
-    @Column(length = 80)
     private String category;
 
     @NotBlank
-    @Column(name = "option_a", nullable = false)
     private String optionA;
 
     @NotBlank
-    @Column(name = "option_b", nullable = false)
     private String optionB;
 
     @NotBlank
-    @Column(name = "option_c", nullable = false)
     private String optionC;
 
     @NotBlank
-    @Column(name = "option_d", nullable = false)
     private String optionD;
 
     @NotBlank
-    @Column(name = "correct_answer", nullable = false, length = 1)
     private String correctAnswer;
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
     public String getQuestion() { return question; }
     public void setQuestion(String question) { this.question = question; }
     public String getCategory() { return category; }

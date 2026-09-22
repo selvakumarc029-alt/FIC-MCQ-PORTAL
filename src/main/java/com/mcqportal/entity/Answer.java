@@ -1,31 +1,27 @@
 package com.mcqportal.entity;
 
-import jakarta.persistence.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
-@Table(name = "answers")
+@Document(collection = "answers")
 public class Answer {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "user_id")
+    @DBRef
     private User user;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "question_id")
+    @DBRef
     private Question question;
 
-    @Column(name = "selected_answer", length = 1)
     private String selectedAnswer;
 
-    @ManyToOne
-    @JoinColumn(name = "result_id")
+    @DBRef
     private Result result;
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
     public User getUser() { return user; }
     public void setUser(User user) { this.user = user; }
     public Question getQuestion() { return question; }

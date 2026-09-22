@@ -17,3 +17,6 @@ Thumbs.db
 
 # Maven
 *.log
+
+# Environment variables
+.env

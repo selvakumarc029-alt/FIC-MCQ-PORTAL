@@ -1,7 +1,7 @@
 package com.mcqportal.repository;
 
 import com.mcqportal.entity.Answer;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
-public interface AnswerRepository extends JpaRepository<Answer, Long> {
+public interface AnswerRepository extends MongoRepository<Answer, String> {
 }

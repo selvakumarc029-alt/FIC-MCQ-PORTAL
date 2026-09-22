@@ -5,7 +5,6 @@ import com.mcqportal.repository.AnswerRepository;
 import com.mcqportal.repository.QuestionRepository;
 import com.mcqportal.repository.ResultRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -27,18 +26,15 @@ public class QuizService {
         this.certificateService = certificateService;
     }
 
-    @Transactional
-    public Result submit(User user, Map<Long, String> selectedAnswers) {
+    public Result submit(User user, Map<String, String> selectedAnswers) {
         return submit(user, selectedAnswers, null);
     }
 
-    @Transactional
-    public Result submit(User user, Map<Long, String> selectedAnswers, String category) {
+    public Result submit(User user, Map<String, String> selectedAnswers, String category) {
         return submit(user, selectedAnswers, category, false, 0, null);
     }
 
-    @Transactional
-    public Result submit(User user, Map<Long, String> selectedAnswers, String category,
+    public Result submit(User user, Map<String, String> selectedAnswers, String category,
                          boolean malpracticeDetected, int malpracticeWarnings, String malpracticeReason) {
         List<Question> questions = (category == null || category.isBlank())
                 ? questionRepository.findAll()
